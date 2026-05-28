@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:portfolio/features/home/chips_stats.dart';
 import 'package:portfolio/features/home/contact_line.dart';
+import 'package:portfolio/features/home/hero.dart';
+import 'package:portfolio/features/home/layout_helpers.dart';
+import 'package:portfolio/features/home/nav_button.dart';
 import 'package:portfolio/features/home/portfolio_backdrop.dart';
 import 'package:portfolio/features/home/project_card.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -229,19 +233,19 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _SectionContainer(
+                    SectionContainer(
                       key: _homeKey,
                       child: _buildHeroSection(context),
                     ),
-                    _SectionContainer(
+                    SectionContainer(
                       key: _aboutKey,
                       child: _buildAboutSection(context),
                     ),
-                    _SectionContainer(
+                    SectionContainer(
                       key: _projectsKey,
                       child: _buildProjectsSection(context),
                     ),
-                    _SectionContainer(
+                    SectionContainer(
                       key: _contactKey,
                       child: _buildContactSection(context),
                     ),
@@ -270,13 +274,13 @@ class _HomePageState extends State<HomePage> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _NavButton(label: 'Home', onPressed: () => _scrollTo(_homeKey)),
-              _NavButton(label: 'About', onPressed: () => _scrollTo(_aboutKey)),
-              _NavButton(
+              NavButton(label: 'Home', onPressed: () => _scrollTo(_homeKey)),
+              NavButton(label: 'About', onPressed: () => _scrollTo(_aboutKey)),
+              NavButton(
                 label: 'Projects',
                 onPressed: () => _scrollTo(_projectsKey),
               ),
-              _NavButton(
+              NavButton(
                 label: 'Contact',
                 onPressed: () => _scrollTo(_contactKey),
               ),
@@ -320,22 +324,22 @@ class _HomePageState extends State<HomePage> {
             ? Row(
                 children: [
                   Expanded(
-                    child: _HeroCopy(
+                    child: HeroCopy(
                       roles: _roles,
                       roleIndex: _roleIndex,
                       onDownloadCv: _downloadCv,
                     ),
                   ),
                   const SizedBox(width: 32),
-                  Expanded(child: _HeroVisual(onDownloadCv: _downloadCv)),
+                  Expanded(child: HeroVisual(onDownloadCv: _downloadCv)),
                 ],
               )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _HeroVisual(onDownloadCv: _downloadCv),
+                  HeroVisual(onDownloadCv: _downloadCv),
                   const SizedBox(height: 28),
-                  _HeroCopy(
+                  HeroCopy(
                     roles: _roles,
                     roleIndex: _roleIndex,
                     onDownloadCv: _downloadCv,
@@ -343,7 +347,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
 
-        return _SectionFrame(
+        return SectionFrame(
           label: 'INTRODUCTION',
           title: 'Computer Science Engineering Student & Flutter Developer.',
           subtitle:
@@ -355,7 +359,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildAboutSection(BuildContext context) {
-    return _SectionFrame(
+    return  SectionFrame(
       label: 'ABOUT',
       title: 'Passionate about software, mobile, and AI.',
       subtitle:
@@ -382,16 +386,16 @@ class _HomePageState extends State<HomePage> {
                 spacing: 12,
                 runSpacing: 12,
                 children: const [
-                  _SkillChip(label: 'Flutter'),
-                  _SkillChip(label: 'Dart'),
-                  _SkillChip(label: 'Python'),
-                  _SkillChip(label: 'NLP'),
-                  _SkillChip(label: 'Hugging Face'),
-                  _SkillChip(label: 'Firebase'),
-                  _SkillChip(label: 'REST APIs'),
-                  _SkillChip(label: 'C/C++'),
-                  _SkillChip(label: 'Java'),
-                  _SkillChip(label: 'Git'),
+                  SkillChip(label: 'Flutter'),
+                  SkillChip(label: 'Dart'),
+                  SkillChip(label: 'Python'),
+                  SkillChip(label: 'NLP'),
+                  SkillChip(label: 'Hugging Face'),
+                  SkillChip(label: 'Firebase'),
+                  SkillChip(label: 'REST APIs'),
+                  SkillChip(label: 'C/C++'),
+                  SkillChip(label: 'Java'),
+                  SkillChip(label: 'Git'),
                 ],
               ),
             ],
@@ -399,17 +403,17 @@ class _HomePageState extends State<HomePage> {
 
           final statsColumn = Column(
             children: const [
-              _AboutStat(
+              AboutStat(
                 title: '2+ Years',
                 subtitle: 'Flutter development experience',
               ),
               SizedBox(height: 16),
-              _AboutStat(
+              AboutStat(
                 title: '3+ Projects',
                 subtitle: 'Personal & internship work',
               ),
               SizedBox(height: 16),
-              _AboutStat(
+              AboutStat(
                 title: 'Top 167',
                 subtitle: 'National Engineering Exam (/ 1750)',
               ),
@@ -437,7 +441,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProjectsSection(BuildContext context) {
-    return _SectionFrame(
+    return SectionFrame(
       label: 'PROJECTS',
       title: 'Selected work — mobile apps and AI systems.',
       subtitle:
@@ -459,7 +463,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisCount: crossAxisCount,
               mainAxisSpacing: 20,
               crossAxisSpacing: 20,
-              childAspectRatio: crossAxisCount == 1 ? 1.02 : 0.85,
+              mainAxisExtent: crossAxisCount == 1 ? 430 : 450,
             ),
             itemBuilder: (context, index) {
               final project = _projects[index];
@@ -478,7 +482,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildContactSection(BuildContext context) {
-    return _SectionFrame(
+    return SectionFrame(
       label: 'CONTACT',
       title: 'Let\'s build something great together.',
       subtitle:
@@ -595,448 +599,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
-
-// ─── Layout helpers ───────────────────────────────────────────────────────────
-
-class _SectionContainer extends StatelessWidget {
-  const _SectionContainer({super.key, required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: child,
-        ),
-      ),
-    );
-  }
-}
-
-class _SectionFrame extends StatelessWidget {
-  const _SectionFrame({
-    required this.label,
-    required this.title,
-    required this.subtitle,
-    required this.child,
-  });
-
-  final String label;
-  final String title;
-  final String subtitle;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: const Color(0xFF0F172A).withValues(alpha: 0.84),
-          borderRadius: BorderRadius.circular(32),
-          border: Border.all(color: const Color(0xFF233047)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(28),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _SectionHeader(label: label, title: title, subtitle: subtitle),
-              const SizedBox(height: 28),
-              child,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({
-    required this.label,
-    required this.title,
-    required this.subtitle,
-  });
-
-  final String label;
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(
-            color: const Color(0xFF14213A),
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: const Color(0xFF233047)),
-          ),
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Color(0xFF90B8FF),
-              fontSize: 12,
-              letterSpacing: 1.4,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          title,
-          style: textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: const Color(0xFFF4F7FB),
-            height: 1.1,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          subtitle,
-          style: textTheme.bodyLarge?.copyWith(
-            color: const Color(0xFF9FB0C7),
-            height: 1.6,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ─── Hero ─────────────────────────────────────────────────────────────────────
-
-class _HeroCopy extends StatelessWidget {
-  const _HeroCopy({
-    required this.roles,
-    required this.roleIndex,
-    required this.onDownloadCv,
-  });
-
-  final List<String> roles;
-  final int roleIndex;
-  final VoidCallback onDownloadCv;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'HELLO, I AM',
-          style: textTheme.labelLarge?.copyWith(
-            color: const Color(0xFF90B8FF),
-            letterSpacing: 2.2,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          'Mohamed Slama',
-          style: textTheme.displaySmall?.copyWith(
-            fontWeight: FontWeight.w900,
-            color: const Color(0xFFF8FAFC),
-            height: 1.05,
-          ),
-        ),
-        const SizedBox(height: 18),
-        Text(
-          'CS Engineering student at ENSI with hands-on experience in Flutter development '
-          'and AI-powered systems — passionate about mobile, NLP, and scalable design.',
-          style: textTheme.titleMedium?.copyWith(
-            color: const Color(0xFFCBD5E1),
-            height: 1.6,
-          ),
-        ),
-        const SizedBox(height: 24),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Icon(Icons.bolt_rounded, color: Color(0xFF7AE7C7)),
-            const SizedBox(width: 10),
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 350),
-                transitionBuilder: (child, animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0, 0.18),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: child,
-                    ),
-                  );
-                },
-                child: Text(
-                  roles[roleIndex],
-                  key: ValueKey<String>(roles[roleIndex]),
-                  style: textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xFFF4F7FB),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 28),
-        Wrap(
-          spacing: 14,
-          runSpacing: 14,
-          children: [
-            FilledButton.icon(
-              onPressed: onDownloadCv,
-              icon: const Icon(Icons.download_rounded),
-              label: const Text('Download CV'),
-            ),
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.mail_outline_rounded),
-              label: const Text('Contact Me'),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _HeroVisual extends StatelessWidget {
-  const _HeroVisual({required this.onDownloadCv});
-
-  final VoidCallback onDownloadCv;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(18),
-            child: Column(
-              children: [
-                Row(
-                  children: const [
-                    _SocialDot(color: Color(0xFF5B8DEF)),
-                    SizedBox(width: 8),
-                    _SocialDot(color: Color(0xFF40C9A2)),
-                    SizedBox(width: 8),
-                    _SocialDot(color: Color(0xFFF0B84B)),
-                  ],
-                ),
-                const SizedBox(height: 18),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(28),
-                  child: Image.asset(
-                    'assets/images/pcd_image.jpg',
-                    height: 320,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Row(
-                  children: const [
-                    Expanded(
-                      child: _MiniStat(value: '3+', label: 'Projects'),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: _MiniStat(value: '2', label: 'Internships'),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: _MiniStat(value: 'ENSI', label: 'University'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: onDownloadCv,
-            icon: const Icon(Icons.arrow_forward_rounded),
-            label: const Text('View CV Preview'),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SocialDot extends StatelessWidget {
-  const _SocialDot({required this.color});
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 12,
-      height: 12,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-    );
-  }
-}
-
-class _MiniStat extends StatelessWidget {
-  const _MiniStat({required this.value, required this.label});
-
-  final String value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFF111827),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFF233047)),
-      ),
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFFF4F7FB),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: const Color(0xFF9FB0C7)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-
-// ─── Chips & stats ────────────────────────────────────────────────────────────
-
-class _SkillChip extends StatelessWidget {
-  const _SkillChip({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      label: Text(label),
-      labelStyle: const TextStyle(
-        color: Color(0xFFF4F7FB),
-        fontWeight: FontWeight.w600,
-      ),
-      backgroundColor: const Color(0xFF14213A),
-      side: const BorderSide(color: Color(0xFF233047)),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-    );
-  }
-}
-
-class _AboutStat extends StatelessWidget {
-  const _AboutStat({required this.title, required this.subtitle});
-
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFF111827),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF233047)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFFF4F7FB),
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            subtitle,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: const Color(0xFF9FB0C7)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Nav button ───────────────────────────────────────────────────────────────
-
-class _NavButton extends StatefulWidget {
-  const _NavButton({required this.label, required this.onPressed});
-
-  final String label;
-  final VoidCallback onPressed;
-
-  @override
-  State<_NavButton> createState() => _NavButtonState();
-}
-
-class _NavButtonState extends State<_NavButton> {
-  bool _hovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: AnimatedScale(
-        duration: const Duration(milliseconds: 150),
-        scale: _hovered ? 1.04 : 1.0,
-        child: TextButton(
-          onPressed: widget.onPressed,
-          style: TextButton.styleFrom(
-            foregroundColor: const Color(0xFFF4F7FB),
-            backgroundColor: _hovered
-                ? const Color(0xFF14213A)
-                : Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: Text(widget.label),
-          ),
-        ),
-      ),
-    );
-  }
-}
