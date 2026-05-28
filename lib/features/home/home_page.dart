@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,52 +21,60 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
 
-
   Timer? _roleTimer;
   int _roleIndex = 0;
 
   final List<String> _roles = const [
     'Flutter Developer',
-    'UI Engineer',
+    'AI Engineer',
     'Mobile App Builder',
-    'Firebase Integrator',
+    'CS Engineering Student',
   ];
 
   final List<Map<String, String>> _projects = const [
     {
-      'title': 'FinTrack',
-      'description': 'A clean budgeting app with charts, goals, and smart reminders.',
-      'image': 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/',
+      'title': 'Psychora',
+      'description':
+          'AI-powered psychiatric diagnostic assistant using NLP and fine-tuned transformer models for disorder classification and progressive dialogue-based reasoning.',
+      'image':
+          'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=80',
+      'github': 'https://github.com/slama-mohamed',
+      'tags': 'Python · NLP · Hugging Face',
     },
     {
-      'title': 'TravelMate',
-      'description': 'An itinerary planner designed for smooth trip management and offline access.',
-      'image': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/',
+      'title': 'SafeFile',
+      'description':
+          'Secure file storage and management platform with file upload, organisation, and access management — built with Flutter and backend APIs.',
+      'image':
+          'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+      'github': 'https://github.com/slama-mohamed',
+      'tags': 'Flutter · Dart · REST APIs',
     },
     {
-      'title': 'TaskFlow',
-      'description': 'A productivity dashboard for personal task tracking and team collaboration.',
-      'image': 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/',
+      'title': 'Neo School',
+      'description':
+          'Mobile application for school management and student interaction, featuring responsive UI components and complete educational workflows.',
+      'image':
+          'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
+      'github': 'https://github.com/slama-mohamed',
+      'tags': 'Flutter · Dart',
     },
     {
-      'title': 'ShopGrid',
-      'description': 'A modern commerce experience with cart handling and responsive product browsing.',
-      'image': 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/',
+      'title': 'Portfolio',
+      'description':
+          'This very portfolio — a cross-platform Flutter app with Material 3, smooth scroll navigation, responsive layouts, and a working contact form.',
+      'image':
+          'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+      'github': 'https://github.com/slama-mohamed',
+      'tags': 'Flutter · Dart · Material 3',
     },
   ];
 
   @override
   void initState() {
     super.initState();
-    // Cycles through the intro text so the hero feels alive without being distracting.
     _roleTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
       setState(() {
         _roleIndex = (_roleIndex + 1) % _roles.length;
       });
@@ -84,9 +93,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _scrollTo(GlobalKey key) async {
     final context = key.currentContext;
-    if (context == null) {
-      return;
-    }
+    if (context == null) return;
     await Scrollable.ensureVisible(
       context,
       duration: const Duration(milliseconds: 650),
@@ -96,8 +103,51 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _downloadCv() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Dummy CV download action triggered.')),
+    showDialog<void>(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(16),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: SizedBox(
+              width: MediaQuery.sizeOf(context).width * 0.92,
+              height: MediaQuery.sizeOf(context).height * 0.9,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    color: const Color(0xFF111827),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            'CV Preview',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.close, color: Colors.white),
+                          tooltip: 'Close',
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: SfPdfViewer.asset('assets/pdf/mohamed_slama.pdf'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -141,7 +191,9 @@ class _HomePageState extends State<HomePage> {
         cardTheme: CardThemeData(
           color: const Color(0xFF111827),
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
@@ -217,8 +269,14 @@ class _HomePageState extends State<HomePage> {
             children: [
               _NavButton(label: 'Home', onPressed: () => _scrollTo(_homeKey)),
               _NavButton(label: 'About', onPressed: () => _scrollTo(_aboutKey)),
-              _NavButton(label: 'Projects', onPressed: () => _scrollTo(_projectsKey)),
-              _NavButton(label: 'Contact', onPressed: () => _scrollTo(_contactKey)),
+              _NavButton(
+                label: 'Projects',
+                onPressed: () => _scrollTo(_projectsKey),
+              ),
+              _NavButton(
+                label: 'Contact',
+                onPressed: () => _scrollTo(_contactKey),
+              ),
             ],
           )
         else
@@ -258,7 +316,13 @@ class _HomePageState extends State<HomePage> {
         final content = isWide
             ? Row(
                 children: [
-                  Expanded(child: _HeroCopy(roles: _roles, roleIndex: _roleIndex, onDownloadCv: _downloadCv)),
+                  Expanded(
+                    child: _HeroCopy(
+                      roles: _roles,
+                      roleIndex: _roleIndex,
+                      onDownloadCv: _downloadCv,
+                    ),
+                  ),
                   const SizedBox(width: 32),
                   Expanded(child: _HeroVisual(onDownloadCv: _downloadCv)),
                 ],
@@ -268,14 +332,19 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   _HeroVisual(onDownloadCv: _downloadCv),
                   const SizedBox(height: 28),
-                  _HeroCopy(roles: _roles, roleIndex: _roleIndex, onDownloadCv: _downloadCv),
+                  _HeroCopy(
+                    roles: _roles,
+                    roleIndex: _roleIndex,
+                    onDownloadCv: _downloadCv,
+                  ),
                 ],
               );
 
         return _SectionFrame(
           label: 'INTRODUCTION',
-          title: 'A modern portfolio for a Flutter developer.',
-          subtitle: 'Clean interfaces, smooth motion, and responsive layouts built with Material 3.',
+          title: 'Computer Science Engineering Student & Flutter Developer.',
+          subtitle:
+              'Building AI-powered systems and polished mobile experiences — from ENSI, Tunisia.',
           child: content,
         );
       },
@@ -285,8 +354,9 @@ class _HomePageState extends State<HomePage> {
   Widget _buildAboutSection(BuildContext context) {
     return _SectionFrame(
       label: 'ABOUT',
-      title: 'A short bio with focused skills.',
-      subtitle: 'Built for users who want clarity, speed, and polished mobile experiences.',
+      title: 'Passionate about software, mobile, and AI.',
+      subtitle:
+          'Currently studying Computer Science Engineering at ENSI with hands-on experience in Flutter and NLP.',
       child: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 900;
@@ -294,12 +364,15 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'I design and build Flutter apps with strong attention to motion, usability, and detail.\n'
-                'My work focuses on creating interfaces that feel premium while remaining practical and maintainable.',
+                'I am a Computer Science Engineering student at ENSI (Tunisia) with a strong interest in '
+                'mobile development, artificial intelligence, and scalable software design.\n\n'
+                'I have interned at InnoTeam Solutions and IB Space, building cross-platform Flutter apps, '
+                'integrating REST APIs, and applying clean architecture principles. Outside of classes I '
+                'contribute to hackathons and workshops through ECPC Club and the IEEE Student Branch at ENSI.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      height: 1.7,
-                      color: const Color(0xFFCBD5E1),
-                    ),
+                  height: 1.7,
+                  color: const Color(0xFFCBD5E1),
+                ),
               ),
               const SizedBox(height: 24),
               Wrap(
@@ -308,9 +381,14 @@ class _HomePageState extends State<HomePage> {
                 children: const [
                   _SkillChip(label: 'Flutter'),
                   _SkillChip(label: 'Dart'),
+                  _SkillChip(label: 'Python'),
+                  _SkillChip(label: 'NLP'),
+                  _SkillChip(label: 'Hugging Face'),
                   _SkillChip(label: 'Firebase'),
-                  _SkillChip(label: 'API'),
-                  _SkillChip(label: 'UI/UX'),
+                  _SkillChip(label: 'REST APIs'),
+                  _SkillChip(label: 'C/C++'),
+                  _SkillChip(label: 'Java'),
+                  _SkillChip(label: 'Git'),
                 ],
               ),
             ],
@@ -318,11 +396,20 @@ class _HomePageState extends State<HomePage> {
 
           final statsColumn = Column(
             children: const [
-              _AboutStat(title: '3+ Years', subtitle: 'Mobile app experience'),
+              _AboutStat(
+                title: '2+ Years',
+                subtitle: 'Flutter development experience',
+              ),
               SizedBox(height: 16),
-              _AboutStat(title: '15+ Apps', subtitle: 'Personal and client work'),
+              _AboutStat(
+                title: '3+ Projects',
+                subtitle: 'Personal & internship work',
+              ),
               SizedBox(height: 16),
-              _AboutStat(title: '100%', subtitle: 'Focus on responsive design'),
+              _AboutStat(
+                title: 'Top 167',
+                subtitle: 'National Engineering Exam (/ 1750)',
+              ),
             ],
           );
 
@@ -339,11 +426,7 @@ class _HomePageState extends State<HomePage> {
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              bioColumn,
-              const SizedBox(height: 24),
-              statsColumn,
-            ],
+            children: [bioColumn, const SizedBox(height: 24), statsColumn],
           );
         },
       ),
@@ -353,16 +436,17 @@ class _HomePageState extends State<HomePage> {
   Widget _buildProjectsSection(BuildContext context) {
     return _SectionFrame(
       label: 'PROJECTS',
-      title: 'Selected work presented in a responsive grid.',
-      subtitle: 'Each project card is intentionally simple, fast to scan, and easy to adapt.',
+      title: 'Selected work — mobile apps and AI systems.',
+      subtitle:
+          'Each project reflects a focus on clean architecture, real-world utility, and thoughtful UI design.',
       child: LayoutBuilder(
         builder: (context, constraints) {
           final width = constraints.maxWidth;
           final crossAxisCount = width >= 1150
               ? 3
               : width >= 720
-                  ? 2
-                  : 1;
+              ? 2
+              : 1;
 
           return GridView.builder(
             shrinkWrap: true,
@@ -372,7 +456,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisCount: crossAxisCount,
               mainAxisSpacing: 20,
               crossAxisSpacing: 20,
-              childAspectRatio: crossAxisCount == 1 ? 1.02 : 0.9,
+              childAspectRatio: crossAxisCount == 1 ? 1.02 : 0.85,
             ),
             itemBuilder: (context, index) {
               final project = _projects[index];
@@ -381,6 +465,7 @@ class _HomePageState extends State<HomePage> {
                 description: project['description']!,
                 imageUrl: project['image']!,
                 githubUrl: project['github']!,
+                tags: project['tags']!,
               );
             },
           );
@@ -392,19 +477,32 @@ class _HomePageState extends State<HomePage> {
   Widget _buildContactSection(BuildContext context) {
     return _SectionFrame(
       label: 'CONTACT',
-      title: 'Let’s build something polished together.',
-      subtitle: 'Dummy contact details and a working form are included for the first version.',
+      title: 'Let\'s build something great together.',
+      subtitle:
+          'Feel free to reach out for internship opportunities, collaborations, or just to connect.',
       child: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 900;
           final contactDetails = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              _ContactLine(icon: Icons.email_outlined, title: 'Email', value: 'hello@yourportfolio.dev'),
+              _ContactLine(
+                icon: Icons.email_outlined,
+                title: 'Email',
+                value: 'mohamed.slama@ensi-uma.tn',
+              ),
               SizedBox(height: 16),
-              _ContactLine(icon: Icons.link_outlined, title: 'LinkedIn', value: 'linkedin.com/in/yourprofile'),
+              _ContactLine(
+                icon: Icons.link_outlined,
+                title: 'LinkedIn',
+                value: 'linkedin.com/in/mohamed-slama-4677a5323',
+              ),
               SizedBox(height: 16),
-              _ContactLine(icon: Icons.code_outlined, title: 'GitHub', value: 'github.com/yourprofile'),
+              _ContactLine(
+                icon: Icons.code_outlined,
+                title: 'GitHub',
+                value: 'github.com/slama-mohamed',
+              ),
             ],
           );
 
@@ -451,7 +549,7 @@ class _HomePageState extends State<HomePage> {
                   maxLines: 5,
                   decoration: const InputDecoration(
                     labelText: 'Message',
-                    hintText: 'Tell me about your project',
+                    hintText: 'Tell me about your project or opportunity',
                   ),
                   validator: (value) {
                     if (value == null || value.trim().length < 10) {
@@ -486,17 +584,15 @@ class _HomePageState extends State<HomePage> {
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              contactDetails,
-              const SizedBox(height: 24),
-              form,
-            ],
+            children: [contactDetails, const SizedBox(height: 24), form],
           );
         },
       ),
     );
   }
 }
+
+// ─── Backdrop ────────────────────────────────────────────────────────────────
 
 class _PortfolioBackdrop extends StatelessWidget {
   const _PortfolioBackdrop();
@@ -549,13 +645,13 @@ class _BackdropOrb extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [color, color.withValues(alpha: 0.0)],
-        ),
+        gradient: RadialGradient(colors: [color, color.withValues(alpha: 0.0)]),
       ),
     );
   }
 }
+
+// ─── Layout helpers ───────────────────────────────────────────────────────────
 
 class _SectionContainer extends StatelessWidget {
   const _SectionContainer({super.key, required this.child});
@@ -671,6 +767,8 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+
 class _HeroCopy extends StatelessWidget {
   const _HeroCopy({
     required this.roles,
@@ -698,7 +796,7 @@ class _HeroCopy extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          'Your Name',
+          'Mohamed Slama',
           style: textTheme.displaySmall?.copyWith(
             fontWeight: FontWeight.w900,
             color: const Color(0xFFF8FAFC),
@@ -707,7 +805,8 @@ class _HeroCopy extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         Text(
-          'I craft modern Flutter experiences that combine performance, clarity, and a refined visual language.',
+          'CS Engineering student at ENSI with hands-on experience in Flutter development '
+          'and AI-powered systems — passionate about mobile, NLP, and scalable design.',
           style: textTheme.titleMedium?.copyWith(
             color: const Color(0xFFCBD5E1),
             height: 1.6,
@@ -795,8 +894,8 @@ class _HeroVisual extends StatelessWidget {
                 const SizedBox(height: 18),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(28),
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=80',
+                  child: Image.asset(
+                    'assets/images/pcd_image.jpg',
                     height: 320,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -805,11 +904,17 @@ class _HeroVisual extends StatelessWidget {
                 const SizedBox(height: 18),
                 Row(
                   children: const [
-                    Expanded(child: _MiniStat(value: '10+', label: 'Projects')),
+                    Expanded(
+                      child: _MiniStat(value: '3+', label: 'Projects'),
+                    ),
                     SizedBox(width: 12),
-                    Expanded(child: _MiniStat(value: '4.9', label: 'Rating')),
+                    Expanded(
+                      child: _MiniStat(value: '2', label: 'Internships'),
+                    ),
                     SizedBox(width: 12),
-                    Expanded(child: _MiniStat(value: '100%', label: 'Responsive')),
+                    Expanded(
+                      child: _MiniStat(value: 'ENSI', label: 'University'),
+                    ),
                   ],
                 ),
               ],
@@ -865,16 +970,16 @@ class _MiniStat extends StatelessWidget {
           Text(
             value,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: const Color(0xFFF4F7FB),
-                ),
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFFF4F7FB),
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: const Color(0xFF9FB0C7),
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: const Color(0xFF9FB0C7)),
           ),
         ],
       ),
@@ -882,18 +987,22 @@ class _MiniStat extends StatelessWidget {
   }
 }
 
+// ─── Project card ─────────────────────────────────────────────────────────────
+
 class _ProjectCard extends StatefulWidget {
   const _ProjectCard({
     required this.title,
     required this.description,
     required this.imageUrl,
     required this.githubUrl,
+    required this.tags,
   });
 
   final String title;
   final String description;
   final String imageUrl;
   final String githubUrl;
+  final String tags;
 
   @override
   State<_ProjectCard> createState() => _ProjectCardState();
@@ -917,11 +1026,8 @@ class _ProjectCardState extends State<_ProjectCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  height: 200,
-                  child: Image.network(
-                    widget.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
+                  height: 180,
+                  child: Image.network(widget.imageUrl, fit: BoxFit.cover),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
@@ -931,17 +1037,27 @@ class _ProjectCardState extends State<_ProjectCard> {
                       Text(
                         widget.title,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w800,
-                              color: const Color(0xFFF4F7FB),
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFFF4F7FB),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        widget.tags,
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              color: const Color(0xFF7AE7C7),
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.4,
                             ),
                       ),
                       const SizedBox(height: 10),
                       Text(
                         widget.description,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: const Color(0xFFB3C1D4),
-                              height: 1.6,
-                            ),
+                          color: const Color(0xFFB3C1D4),
+                          height: 1.6,
+                        ),
                       ),
                       const SizedBox(height: 18),
                       FilledButton.tonalIcon(
@@ -960,6 +1076,8 @@ class _ProjectCardState extends State<_ProjectCard> {
     );
   }
 }
+
+// ─── Contact ──────────────────────────────────────────────────────────────────
 
 class _ContactLine extends StatelessWidget {
   const _ContactLine({
@@ -999,17 +1117,17 @@ class _ContactLine extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: const Color(0xFF90B8FF),
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: const Color(0xFF90B8FF),
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   value,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: const Color(0xFFF4F7FB),
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: const Color(0xFFF4F7FB),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -1019,6 +1137,8 @@ class _ContactLine extends StatelessWidget {
     );
   }
 }
+
+// ─── Chips & stats ────────────────────────────────────────────────────────────
 
 class _SkillChip extends StatelessWidget {
   const _SkillChip({required this.label});
@@ -1062,22 +1182,24 @@ class _AboutStat extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: const Color(0xFFF4F7FB),
-                ),
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFFF4F7FB),
+            ),
           ),
           const SizedBox(height: 6),
           Text(
             subtitle,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: const Color(0xFF9FB0C7),
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: const Color(0xFF9FB0C7)),
           ),
         ],
       ),
     );
   }
 }
+
+// ─── Nav button ───────────────────────────────────────────────────────────────
 
 class _NavButton extends StatefulWidget {
   const _NavButton({required this.label, required this.onPressed});
@@ -1104,8 +1226,12 @@ class _NavButtonState extends State<_NavButton> {
           onPressed: widget.onPressed,
           style: TextButton.styleFrom(
             foregroundColor: const Color(0xFFF4F7FB),
-            backgroundColor: _hovered ? const Color(0xFF14213A) : Colors.transparent,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            backgroundColor: _hovered
+                ? const Color(0xFF14213A)
+                : Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
