@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:portfolio/features/home/contact_line.dart';
+import 'package:portfolio/features/home/portfolio_backdrop.dart';
+import 'package:portfolio/features/home/project_card.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class HomePage extends StatefulWidget {
@@ -217,7 +220,7 @@ class _HomePageState extends State<HomePage> {
         appBar: _buildAppBar(context),
         body: Stack(
           children: [
-            const _PortfolioBackdrop(),
+            const PortfolioBackdrop(),
             Scrollbar(
               controller: _scrollController,
               thumbVisibility: true,
@@ -460,7 +463,7 @@ class _HomePageState extends State<HomePage> {
             ),
             itemBuilder: (context, index) {
               final project = _projects[index];
-              return _ProjectCard(
+              return ProjectCard(
                 title: project['title']!,
                 description: project['description']!,
                 imageUrl: project['image']!,
@@ -486,19 +489,19 @@ class _HomePageState extends State<HomePage> {
           final contactDetails = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              _ContactLine(
+              ContactLine(
                 icon: Icons.email_outlined,
                 title: 'Email',
                 value: 'mohamed.slama@ensi-uma.tn',
               ),
               SizedBox(height: 16),
-              _ContactLine(
+              ContactLine(
                 icon: Icons.link_outlined,
                 title: 'LinkedIn',
                 value: 'linkedin.com/in/mohamed-slama-4677a5323',
               ),
               SizedBox(height: 16),
-              _ContactLine(
+              ContactLine(
                 icon: Icons.code_outlined,
                 title: 'GitHub',
                 value: 'github.com/slama-mohamed',
@@ -592,64 +595,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ─── Backdrop ────────────────────────────────────────────────────────────────
 
-class _PortfolioBackdrop extends StatelessWidget {
-  const _PortfolioBackdrop();
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF090D14), Color(0xFF0B1220), Color(0xFF090D14)],
-          ),
-        ),
-        child: Stack(
-          children: const [
-            Positioned(
-              top: -80,
-              right: -60,
-              child: _BackdropOrb(color: Color(0x3342A5F5), size: 220),
-            ),
-            Positioned(
-              top: 420,
-              left: -40,
-              child: _BackdropOrb(color: Color(0x2240C9A2), size: 180),
-            ),
-            Positioned(
-              bottom: 120,
-              right: 80,
-              child: _BackdropOrb(color: Color(0x1A7C8CF8), size: 140),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BackdropOrb extends StatelessWidget {
-  const _BackdropOrb({required this.color, required this.size});
-
-  final Color color;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(colors: [color, color.withValues(alpha: 0.0)]),
-      ),
-    );
-  }
-}
 
 // ─── Layout helpers ───────────────────────────────────────────────────────────
 
@@ -987,156 +933,8 @@ class _MiniStat extends StatelessWidget {
   }
 }
 
-// ─── Project card ─────────────────────────────────────────────────────────────
 
-class _ProjectCard extends StatefulWidget {
-  const _ProjectCard({
-    required this.title,
-    required this.description,
-    required this.imageUrl,
-    required this.githubUrl,
-    required this.tags,
-  });
 
-  final String title;
-  final String description;
-  final String imageUrl;
-  final String githubUrl;
-  final String tags;
-
-  @override
-  State<_ProjectCard> createState() => _ProjectCardState();
-}
-
-class _ProjectCardState extends State<_ProjectCard> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: AnimatedScale(
-        duration: const Duration(milliseconds: 180),
-        scale: _isHovered ? 1.02 : 1.0,
-        child: Card(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                  height: 180,
-                  child: Image.network(widget.imageUrl, fit: BoxFit.cover),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.title,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: const Color(0xFFF4F7FB),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        widget.tags,
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(
-                              color: const Color(0xFF7AE7C7),
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.4,
-                            ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        widget.description,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: const Color(0xFFB3C1D4),
-                          height: 1.6,
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      FilledButton.tonalIcon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.code_rounded),
-                        label: const Text('GitHub'),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Contact ──────────────────────────────────────────────────────────────────
-
-class _ContactLine extends StatelessWidget {
-  const _ContactLine({
-    required this.icon,
-    required this.title,
-    required this.value,
-  });
-
-  final IconData icon;
-  final String title;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: const Color(0xFF111827),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF233047)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFF14213A),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(icon, color: const Color(0xFF74B9FF)),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: const Color(0xFF90B8FF),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: const Color(0xFFF4F7FB),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // ─── Chips & stats ────────────────────────────────────────────────────────────
 
