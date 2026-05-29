@@ -37,6 +37,7 @@ dependencies:
   go_router: ^14.0.0
   open_filex: ^4.7.0
   syncfusion_flutter_pdfviewer: ^31.1.19
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:

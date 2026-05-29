@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectCard extends StatefulWidget {
   const ProjectCard({
@@ -81,7 +82,28 @@ class _ProjectCardState extends State<ProjectCard> {
                     ),
                     const SizedBox(height: 18),
                     FilledButton.tonalIcon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final url = widget.githubUrl;
+                        final uri = Uri.tryParse(url);
+                        if (uri == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Invalid URL')),
+                          );
+                          return;
+                        }
+                        try {
+                          final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          if (!launched) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Could not open URL')),
+                            );
+                          }
+                        } catch (_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open URL')),
+                          );
+                        }
+                      },
                       icon: const Icon(Icons.code_rounded),
                       label: const Text('GitHub'),
                     ),

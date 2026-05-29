@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           'AI-powered psychiatric diagnostic assistant using NLP and fine-tuned transformer models for disorder classification and progressive dialogue-based reasoning.',
       'image':
           'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/slama-mohamed',
+      'github': 'https://github.com/slama-mohamed/psychora',
       'tags': 'Python · NLP · Hugging Face',
     },
     {
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           'Secure file storage and management platform with file upload, organisation, and access management — built with Flutter and backend APIs.',
       'image':
           'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/slama-mohamed',
+      'github': 'https://github.com/slama-mohamed/SafeFile',
       'tags': 'Flutter · Dart · REST APIs',
     },
     {
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
           'Mobile application for school management and student interaction, featuring responsive UI components and complete educational workflows.',
       'image':
           'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/slama-mohamed',
+      'github': 'https://github.com/InnoTeamSolutions/neoschool-guardian-mobile',
       'tags': 'Flutter · Dart',
     },
     {
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
           'This very portfolio — a cross-platform Flutter app with Material 3, smooth scroll navigation, responsive layouts, and a working contact form.',
       'image':
           'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-      'github': 'https://github.com/slama-mohamed',
+      'github': 'https://github.com/slama-mohamed/mon_portfolio',
       'tags': 'Flutter · Dart · Material 3',
     },
   ];
