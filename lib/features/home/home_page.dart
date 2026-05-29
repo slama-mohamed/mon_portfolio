@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:portfolio/features/home/chips_stats.dart';
 import 'package:portfolio/features/home/contact_line.dart';
@@ -327,7 +326,8 @@ class _HomePageState extends State<HomePage> {
                     child: HeroCopy(
                       roles: _roles,
                       roleIndex: _roleIndex,
-                      onDownloadCv: _downloadCv,
+                                onDownloadCv: _downloadCv,
+                                onContact: () => _scrollTo(_contactKey),
                     ),
                   ),
                   const SizedBox(width: 32),
@@ -339,17 +339,18 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   HeroVisual(onDownloadCv: _downloadCv),
                   const SizedBox(height: 28),
-                  HeroCopy(
-                    roles: _roles,
-                    roleIndex: _roleIndex,
-                    onDownloadCv: _downloadCv,
-                  ),
+                          HeroCopy(
+                            roles: _roles,
+                            roleIndex: _roleIndex,
+                            onDownloadCv: _downloadCv,
+                            onContact: () => _scrollTo(_contactKey),
+                          ),
                 ],
               );
 
         return SectionFrame(
           label: 'INTRODUCTION',
-          title: 'Computer Science Engineering Student & Flutter Developer.',
+          title: 'Computer Science Engineering Student .',
           subtitle:
               'Building AI-powered systems and polished mobile experiences — from ENSI, Tunisia.',
           child: content,

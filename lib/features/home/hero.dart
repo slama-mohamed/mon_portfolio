@@ -5,11 +5,13 @@ class HeroCopy extends StatelessWidget {
     required this.roles,
     required this.roleIndex,
     required this.onDownloadCv,
+    required this.onContact,
   });
 
   final List<String> roles;
   final int roleIndex;
   final VoidCallback onDownloadCv;
+  final VoidCallback onContact;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,7 @@ class HeroCopy extends StatelessWidget {
               label: const Text('Download CV'),
             ),
             OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: onContact,
               icon: const Icon(Icons.mail_outline_rounded),
               label: const Text('Contact Me'),
             ),
